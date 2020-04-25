@@ -31,6 +31,12 @@ python main.py --content <content.jpg> --style <style.jpg>
 Replace <content.jpg> and <style.jpg> with your image file names.
 
 # Examples
+
+|Device|Image size|Running time|
+|-|:-:|:-:|
+|Nvidia GTX 2070|$512\times512$|3'16''|
+|Intel i7-7700HQ|$512\times512$|50'16''|
+
 ![Neckarfront](images/content/neckarfront.jpg)
 ![The Starry Night](images/style/starry.jpg)
 ![Neckarfront + The Starry Night](images/output/neckarfront_starry_night.jpg)

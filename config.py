@@ -16,8 +16,8 @@ init_img = "content"
 
 # train config
 optimizer = optim.LBFGS
-epochs = 100
-init_lr = 0.5
+epochs = 10
+init_lr = 1
 log_path = "logs"
 scheduler = None
 

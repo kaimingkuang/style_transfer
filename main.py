@@ -31,32 +31,24 @@ def main(cfg):
     else:
         input_img = generate_random_image(content_img)
 
-    model = GatysModel(cfg.pretrained_path, cfg.style_layers,
-        cfg.content_layers, cfg.img_mean, cfg.img_std)
-
     if torch.cuda.is_available():
         style_img = style_img.cuda()
         content_img = content_img.cuda()
         input_img = input_img.cuda()
-        model = GatysModel(cfg.pretrained_path, cfg.style_layers,
-            cfg.content_layers, cfg.img_mean.cuda(),
-            cfg.img_std.cuda()).cuda()
+        model = GatysModel(cfg.style_layers, cfg.content_layers,
+            cfg.img_mean.cuda(), cfg.img_std.cuda()).cuda()
     else:
-        model = GatysModel(cfg.pretrained_path, cfg.style_layers,
-            cfg.content_layers, cfg.img_mean, cfg.img_std)
+        model = GatysModel(cfg.style_layers, cfg.content_layers,
+            cfg.img_mean, cfg.img_std)
 
     engine = Engine(cfg)
 
     loss_fn = cfg.loss_fn(cfg.style_layer_weights, cfg.content_layer_weights,
         cfg.style_loss_weight, cfg.content_loss_weight)
     optimizer = cfg.optimizer([input_img.requires_grad_()], lr=cfg.init_lr)
-    if cfg.scheduler is not None:
-        scheduler = cfg.scheduler(optimizer, **cfg.params_scheduler)
-    else:
-        scheduler = cfg.scheduler
 
     engine.compile(model, loss_fn, optimizer, style_img, content_img)
-    engine.fit(input_img, scheduler)
+    engine.fit(input_img)
 
 
 if __name__ == "__main__":
